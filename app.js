@@ -86,9 +86,8 @@ app.get('/create', jwtCheck, async (req, res) => {
 
   const insert = db.prepare('insert into tickets (id, oib, name, surname) values (?, ?, ?, ?)');
   insert.run(id, oib, name, surname);
-
-  const fullUrl = req.protocol + '://' + req.get('host');
-  const url = "https://quickchart.io/chart?cht=qr&chs=300x300&chl=" + fullUrl + "/ticket/" + id;
+  
+  const url = "https://quickchart.io/chart?cht=qr&chs=300x300&chl=" + "https://web2lab1-7e11.onrender.com/ticket/" + id;
 
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
