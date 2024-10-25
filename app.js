@@ -89,7 +89,6 @@ app.get('/create', jwtCheck, async (req, res) => {
 
   const fullUrl = req.protocol + '://' + req.get('host');
   const url = "https://quickchart.io/chart?cht=qr&chs=300x300&chl=" + fullUrl + "/ticket/" + id;
-  console.log(fullUrl + "/ticket/" + id);
 
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -109,7 +108,7 @@ app.get('/ticket/:id', requiresAuth(), (req, res) => {
   if(!ticket) {
     return res.status(404).send('Ticket not found');
   }
-  res.send(ticket);
+  res.render('ticket-info', { user: user.name, ticket: ticket });
 });
 
 
