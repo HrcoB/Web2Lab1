@@ -43,7 +43,7 @@ const db = new Database(dbFile);
 const query = `
     create table tickets (
       id string primary key,
-      oib string,
+      vatin string,
       name string,
       surname string,
       timestamp datetime default (datetime('now','+2 hour'))
@@ -71,21 +71,21 @@ app.get('/', (req, res) => {
 
 app.get('/create', jwtCheck, async (req, res) => {
 
-  const { oib, name, surname } = req.body;
+  const { vatin, name, surname } = req.body;
 
-  if (!oib || !name || !surname) {
-    return res.status(400).json({ error: 'oib, name, and surname are required' });
+  if (!vatin || !name || !surname) {
+    return res.status(400).json({ error: 'vatin, name, and surname are required' });
   }
 
-  const entries = db.prepare('select count(*) as count from tickets where oib ='+ oib).get();
+  const entries = db.prepare('select count(*) as count from tickets where vatin ='+ vatin).get();
   if(entries.count >= 3) {
-    return res.status(400).json('Max number of tickets for this OIB reached');
+    return res.status(400).json('Max number of tickets for this vatin reached');
   }
   
   const id = crypto.randomUUID();
 
-  const insert = db.prepare('insert into tickets (id, oib, name, surname) values (?, ?, ?, ?)');
-  insert.run(id, oib, name, surname);
+  const insert = db.prepare('insert into tickets (id, vatin, name, surname) values (?, ?, ?, ?)');
+  insert.run(id, vatin, name, surname);
   
   const url = "https://quickchart.io/chart?cht=qr&chs=300x300&chl=" + "https://web2lab1-7e11.onrender.com/ticket/" + id;
 
