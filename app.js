@@ -24,10 +24,10 @@ const jwtCheck = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://forweb2fer.eu.auth0.com/.well-known/jwks.json`
+    jwksUri: `${process.env.ISSUER}/.well-known/jwks.json`
   }),
   audience: 'https://create-ticket',
-  baseURL: 'https://forweb2fer.eu.auth0.com/',
+  baseURL: process.env.ISSUER,
   algorithms: ['RS256']
 });
 
