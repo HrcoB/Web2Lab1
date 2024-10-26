@@ -46,7 +46,7 @@ const query = `
       oib string,
       name string,
       surname string,
-      timestamp datetime default (datetime('now','localtime'))
+      timestamp datetime default (datetime('now','+2 hour'))
     )
   `;
 
